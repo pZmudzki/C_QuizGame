@@ -203,7 +203,8 @@ int getQuestionsFromStorage(int randArr[], int randArrLength, Question questions
                     // 6 - correct answer id
                     switch(column){
                         case 1:
-                            strncpy(question, token, 100); // copy string from a file to variable
+                            // copy string from a file to variable
+                            strncpy(question, token, 100);
                             break;
                         case 2:
                             strncpy(answers[0], token, 50);
