@@ -1,0 +1,95 @@
+# depslib dependency file v1.0
+1710863409 source:d:\c projects\quizgame\main.c
+	<stdio.h>
+	<string.h>
+	"include/game.h"
+	"include/menu.h"
+	"include/auth.h"
+
+1710865322 source:d:\c projects\quizgame\checkkey.c
+	<stdio.h>
+	<conio.h>
+	"include/checkKey.h"
+
+1710452707 d:\c projects\quizgame\include\checkkey.h
+
+1710867075 source:d:\c projects\quizgame\game.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<conio.h>
+	"include/checkKey.h"
+
+1710452794 d:\c projects\quizgame\include\game.h
+
+1710865301 source:d:\c projects\quizgame\menu.c
+	<stdio.h>
+	<conio.h>
+	"include/checkKey.h"
+
+1710453319 d:\c projects\quizgame\include\menu.h
+
+1710935136 source:d:\c projects\quizgame\statistics.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"include/statistics.h"
+
+1710455837 d:\c projects\quizgame\include\statistics.h
+
+1710868290 source:d:\c projects\quizgame\auth.c
+	<stdio.h>
+	<string.h>
+	<conio.h>
+	"include/auth.h"
+
+1710791739 d:\c projects\quizgame\include\auth.h
+
+1710868290 source:d:\c_quizgame\auth.c
+	<stdio.h>
+	<string.h>
+	<conio.h>
+	"include/auth.h"
+
+1710791739 d:\c_quizgame\include\auth.h
+
+1710865322 source:d:\c_quizgame\checkkey.c
+	<stdio.h>
+	<conio.h>
+	"include/checkKey.h"
+
+1710452707 d:\c_quizgame\include\checkkey.h
+
+1710867075 source:d:\c_quizgame\game.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<conio.h>
+	"include/checkKey.h"
+
+1710865301 source:d:\c_quizgame\menu.c
+	<stdio.h>
+	<conio.h>
+	"include/checkKey.h"
+
+1710974579 source:d:\c_quizgame\main.c
+	<stdio.h>
+	<string.h>
+	"include/game.h"
+	"include/menu.h"
+	"include/auth.h"
+
+1710452794 d:\c_quizgame\include\game.h
+
+1710453319 d:\c_quizgame\include\menu.h
+
+1710974470 source:d:\c_quizgame\statistics.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"include/statistics.h"
+
+1710455837 d:\c_quizgame\include\statistics.h
+
