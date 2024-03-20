@@ -8,24 +8,36 @@
 #include "include/checkKey.h"
 
 #define MAX_ROUNDS 10
+#define QUESTIONS_COUNT 49
 
-struct question{  // structure for question
+// structure for question
+struct question{
     char question[100];
     char answers[4][50];
     int rightAnswer; // idx of answers arr
 };
+// type definition for question struct
 typedef struct question Question;
 
+
+// function responsible for tracking and displaying quiz to a user
 void game(int userID){
     system("@cls||clear"); // initial console clear to prevent colliding with another locations
 
-    // random integer arr which implies questions id
+    // random integer arr which implies questions id in the questions.csv file
     int generatedQuestionsIds[MAX_ROUNDS];
-                //      generated ids arr, question count, max idx
-    generateRandomIds(generatedQuestionsIds, MAX_ROUNDS, 49);
+
+    // function generating random ids for passed array arr
+    //args: array, question count, max possible id
+    generateRandomIds(generatedQuestionsIds, MAX_ROUNDS, QUESTIONS_COUNT);
 
 
-    Question questions[11];
+    // array for storing questions
+    Question questions[MAX_ROUNDS + 1];
+
+    //function that gets every question from questions.csv
+    // and stores them in question array
+    // args: generated ids array, how many questions to get, an array to store questions
     getQuestionsFromStorage(generatedQuestionsIds, MAX_ROUNDS, questions);
 
 
@@ -45,7 +57,10 @@ void game(int userID){
     OutputOptions(currSelected, questions[round]); // output first question
 
     while (gameStarted == 1) {
-        if (kbhit()) { // for each key press render new view
+        // for each key press render new view
+        // example:
+        // if a user presses arrow key then this loop iterates over with updated view
+        if (kbhit()) {
             int pressed_key = checkKey(); // check what key has been pressed
             switch(pressed_key){
                 case 72: // ascii code for up key
@@ -59,6 +74,8 @@ void game(int userID){
                     }
                     break;
                 case 13: // ascii code for enter key
+                    // if user selected the correct answer increase rightAns
+                    // otherwise increase wrongAns
                     if(questions[round].rightAnswer == currSelected){
                         rightAns++;
                     } else {
@@ -68,24 +85,20 @@ void game(int userID){
                     break;
             }
             system("@cls||clear"); // clean console
+            // end a game and display game stats if user reaches max rounds
+            // otherwise render a question
             if(round == MAX_ROUNDS){
                 gameStarted = 0;
             } else {
                 printf("Question %d/%d\n\n", round + 1, MAX_ROUNDS);
-                OutputOptions(currSelected, questions[round]); // if game is on display options after each key press
+                OutputOptions(currSelected, questions[round]); // if game is on, display options after each key press
             }
         }
     }
-    /*// output ending screen with an option to restart
-    if(OutputEnd(rightAns, wrongAns) == 1){
-        round = 0;
-        rightAns = wrongAns = 0;
-        gameStarted = 1;
-        system("@cls||clear");
-        goto start;
-    } */
 
+    // function saving a game to games.csv file
     saveGame(rightAns, wrongAns, userID);
+    // function displaying end results
     OutputEnd(rightAns, wrongAns);
 }
 
@@ -103,16 +116,19 @@ void OutputOptions(int selected, Question q){
     }
 }
 
-// function displaying endgame screen with an option to restart it
+// function displaying endgame screen
 void OutputEnd(int rigth, int wrong){
     printf("Rigth answers: %d\nWrong answers: %d\n\nPress ANY key to go back to Menu\n", rigth, wrong);
     while(1){
+        // wait for user to press any key to stop the loop and exit a function
         if(kbhit()){
             break;
         }
     }
 }
 
+// function generating random ids for passed array arr
+//args: array, question count, max possible id
 int generateRandomIds(int random_arr[], int arr_length, int max_num){
     // Seed the random number generator with the current time
     srand(time(NULL));
@@ -141,37 +157,53 @@ int generateRandomIds(int random_arr[], int arr_length, int max_num){
 }
 
 
-// import questions from csv file based on generated ids
+// import questions from questions.csv file based on generated ids
 int getQuestionsFromStorage(int randArr[], int randArrLength, Question questions[]){
     FILE *fp;
     char row[350];
     char *token;
 
+    // helper variable keeping track of a question id
+    // (ids in a file are sorted and start with 1)
     int currRow = 1;
+
+    // keeps track of questions array id to
+    // set imported question to right index
     int currIdx = 0;
 
     fp = fopen("./storage/questions.csv","r");
 
     // row = id,question,answer1,answer2,answer3,answer4,rightAns
-    while (!feof(fp)){
+    while (!feof(fp)){ //feof(FILE *) - function detecting end of file
         fgets(row, 350, fp);
 
+        // iterate till i reaches random generated array length
         for(int i = 0; i <= randArrLength - 1; i++){
 
             if(randArr[i] == currRow){
 
+                // token - separated value from a row by a comma
                 token = strtok(row, ",");
 
                 char question[100];
                 char answers[4][50];
                 int rightAnswer;
 
+                // column - helper variable for identifying current read value in a row
                 int column = 0;
-                while(token != NULL){
 
+                while(token != NULL){
+                    // tokens
+                    // 0 - id of a question
+                    // 1 - question
+                    // 2 - answer 1
+                    // 3 - answer 2
+                    // 4 - answer 3
+                    // 5 - answer 4
+                    // 6 - correct answer id
                     switch(column){
                         case 1:
-                            strncpy(question, token, 100);
+                            strncpy(question, token, 100); // copy string from a file to variable
                             break;
                         case 2:
                             strncpy(answers[0], token, 50);
@@ -189,10 +221,14 @@ int getQuestionsFromStorage(int randArr[], int randArrLength, Question questions
                             rightAnswer = atoi(token);
                             break;
                     }
+
+                    // set token to null to find rest of the tokens left in a row
                     token = strtok(NULL, ",");
+                    // set the column to state that in next iteration function
+                    // should look for another type of value
                     column++;
                 }
-                Question newQuestion; // init a question "class" helper
+                Question newQuestion; // init a question struct helper
 
                 strncpy(newQuestion.question, question, 100); // copy question str to newQuestion
 
@@ -202,28 +238,37 @@ int getQuestionsFromStorage(int randArr[], int randArrLength, Question questions
                 }
                 // copy right answer to newQuestion
                 newQuestion.rightAnswer = rightAnswer;
+
+                // set question arr value at currIdx to imported question
                 questions[currIdx] = newQuestion;
+                //increase index
                 currIdx++;
             }
         }
+
         currRow++;
     }
+    //close stream
     fclose(fp);
     return 0;
 }
 
+// function saving a game to games.csv file
 int saveGame(int right, int wrong, int userID){
+    // variable for the last id of games in a file
     int lastID = 0;
     char row[100];
 
     FILE *fp;
     fp = fopen("./storage/games.csv","r");
 
-    while(!feof(fp)){
+    while(!feof(fp)){ //feof(FILE *) - function detecting end of file
         fgets(row, 100, fp);
+        // increase lastID till the end of a file
         lastID++;
     }
 
+    //close stream
     fclose(fp);
 
     fp = fopen("./storage/games.csv","a");
@@ -231,6 +276,7 @@ int saveGame(int right, int wrong, int userID){
     // game id, user id, ans right, ans wrong
     fprintf(fp, "\n%d,%d,%d,%d", lastID + 1, userID, right, wrong);
 
+    //close stream
     fclose(fp);
 
     return 0;

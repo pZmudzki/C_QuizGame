@@ -24,7 +24,7 @@ void statistics(int userID){
 
 
     while(1){
-        // wait for user to press any key to stop the loop and execute a function
+        // wait for user to press any key to stop the loop and exit a function
         if(kbhit()){
             break;
         }
@@ -50,11 +50,13 @@ int getStatsFromStorage(int userID, int *gamesCount, int *rightAnswerCount, int 
 
         // curr row, row values
         int rightAns, wrongAns, user;
+
+        // column - helper variable for identifying current read value in a row
         int column = 0;
 
         //iterate through a row till it's end
         while(token != NULL){
-            // column - helper variable for identifying current read value in a row
+            // tokens
             // 0 - game id
             // 1 - user id
             // 2 - rigth answers count
