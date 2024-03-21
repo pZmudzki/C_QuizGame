@@ -1,18 +1,18 @@
-#Quiz Game in C
+# Quiz Game in C
 
 Simple game in which player can create an account, login, play quiz games and view stats.
 
-##Features
+## Features
 
--Created accounts and played games are saved locally in a file
--All possible questions are saved in a /storage/questions.csv
--Each game 10 questions are selected randomly
--Players can view their correct/wrong answers ratio from all games
+- Created accounts and played games are saved locally in a file
+- All possible questions are saved in a /storage/questions.csv
+- Each game 10 questions are selected randomly
+- Players can view their correct/wrong answers ratio from all games
 
-####Todo:
+#### Todo:
 -Implement password hashing
 
-##How to play?
+## How to play?
 
 1. Clone the repository
 
