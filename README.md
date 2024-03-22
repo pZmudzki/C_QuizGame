@@ -10,7 +10,7 @@ Simple game in which player can create an account, login, play quiz games and vi
 - Players can view their correct/wrong answers ratio from all games
 
 #### Todo:
--Implement password hashing
+- Implement password hashing
 
 ## How to play?
 
